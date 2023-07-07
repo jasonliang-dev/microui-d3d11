@@ -48,12 +48,9 @@ typedef struct {
 static GPU gpu;
 static HWND hwnd;
 static Renderer renderer;
-static mu_Context *mui_ctx;
 
 void r_init(WindowsMessageCallback wndproc) {
   /* init window */
-
-  const char *title = "";
 
   RegisterClassA(&(WNDCLASSA){
       .lpfnWndProc = (WNDPROC)wndproc,
@@ -273,7 +270,7 @@ static void flush(void) {
   ID3D11DeviceContext *ctx = gpu.ctx;
   int count = renderer.cursor - renderer.offset;
 
-  /* first flush this frame or buffer overflowed, when renderer.offset == 0 */
+  /* first flush this frame or buffer full, when renderer.offset == 0 */
   D3D11_MAP map_write =
       renderer.offset == 0 ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE;
 
